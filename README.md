@@ -8,6 +8,8 @@ In this module, I integrated two payments gateway of OnePay, that is the Domesti
  + Under the root of your website, please run the command lines bellowing:
     - **composer require ecomteck/module-core**
     - **composer require ecomteck/module-onepay-payment-gateway**
+    - **php bin/magento module:enable Ecomteck_Core**
+    - **php bin/magento module:enable Ecomteck_OnePay**
     - **php bin/magento setup:upgrade**
     - **php bin/magento setup:static-content:deploy -f**
     - **php bin/magento setup:di:compile**
