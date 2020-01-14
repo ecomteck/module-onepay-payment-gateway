@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Ecomteck
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Ecomteck.com license that is
+ * available through the world-wide-web at this URL:
+ * https://ecomteck.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Ecomteck
+ * @package     Ecomteck_OnePay
+ * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license     https://ecomteck.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Ecomteck_OnePay::payment_gateway" title="OnePay Payment Gateway" translate="title" module="Ecomteck_OnePay" sortOrder="110" dependsOnModule="Magento_Payment" resource="Magento_Payment::payment" parent="Ecomteck_Core::menu"/>
+        <add id="Ecomteck_OnePay::configuration" title="Configuration" module="Ecomteck_OnePay" sortOrder="10" action="adminhtml/system_config/edit/section/payment" resource="Magento_Payment::payment" parent="Ecomteck_OnePay::payment_gateway"/>
+    </menu>
+</config>

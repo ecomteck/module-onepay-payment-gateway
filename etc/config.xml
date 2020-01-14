@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Ecomteck
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Ecomteck.com license that is
+ * available through the world-wide-web at this URL:
+ * https://ecomteck.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Ecomteck
+ * @package     Ecomteck_OnePay
+ * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license     https://ecomteck.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <payment>
+            <onepay_domestic>
+                <active>0</active>
+                <model>Ecomteck\OnePay\Model\OnePayDomesticCard</model>
+                <order_status>pending</order_status>
+                <title>OnePay Domestic ATM Card</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <order_prefix>ecomteck</order_prefix>
+            </onepay_domestic>
+            <onepay_international>
+                <active>0</active>
+                <model>Ecomteck\OnePay\Model\OnePayInternationalCard</model>
+                <order_status>pending</order_status>
+                <title>OnePay International Card</title>
+                <allowspecific>0</allowspecific>
+                <group>offline</group>
+                <order_prefix>ecomteck</order_prefix>
+            </onepay_international>
+        </payment>
+    </default>
+</config>

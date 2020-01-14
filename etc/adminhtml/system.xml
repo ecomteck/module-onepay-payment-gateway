@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Ecomteck
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Ecomteck.com license that is
+ * available through the world-wide-web at this URL:
+ * https://ecomteck.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Ecomteck
+ * @package     Ecomteck_OnePay
+ * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license     https://ecomteck.com/LICENSE.txt
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment">
+            <group id="onepay_domestic" translate="label" type="text"
+                   sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>OnePay Domestic ATM Card</label>
+                <field id="active" translate="label"
+                       type="select" sortOrder="1" showInDefault="1"
+                       showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="order_status" translate="label"
+                       type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>New Order Status</label>
+                    <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sort Order</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Title</label>
+                </field>
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Payment from Applicable Countries</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="min_order_total" translate="label" type="text" sortOrder="98" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Minimum Order Total</label>
+                </field>
+                <field id="max_order_total" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Maximum Order Total</label>
+                </field>
+                <field id="model"></field>
+                <!--custom-->
+                <field id="payment_url" translate="label" type="text"
+                       sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment URL</label>
+                    <validate>required-entry validate-url</validate>
+                </field>
+                <field id="merchant_id" translate="label" type="text"
+                       sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>MerchantID</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="access_code" translate="label" type="text"
+                       sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Access Code</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="hash_code" translate="label" type="text"
+                       sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Hash Code</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="querydr_url" translate="label" type="text"
+                       sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>QueryDR URL</label>
+                    <validate>required-entry validate-url</validate>
+                </field>
+                <field id="querydr_user" translate="label" type="text"
+                       sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>QueryDR User</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="querydr_password" translate="label" type="text"
+                       sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>QueryDR Password</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="order_prefix" translate="label comment" type="text"
+                       sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Order Prefix</label>
+                    <comment>Input your store Order Prefix. Example: ecomteck</comment>
+                    <validate>required-entry</validate>
+                </field>
+            </group>
+            <group id="onepay_international" translate="label" type="text"
+                   sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>OnePay International Card (Visa, MasterCard)</label>
+                <field id="active" translate="label"
+                       type="select" sortOrder="1" showInDefault="1"
+                       showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="order_status" translate="label"
+                       type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>New Order Status</label>
+                    <source_model>Magento\Sales\Model\Config\Source\Order\Status\NewStatus</source_model>
+                </field>
+                <field id="sort_order" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Sort Order</label>
+                    <frontend_class>validate-number</frontend_class>
+                </field>
+                <field id="title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Title</label>
+                </field>
+                <field id="allowspecific" translate="label" type="allowspecific" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                    <label>Payment from Applicable Countries</label>
+                    <source_model>Magento\Payment\Model\Config\Source\Allspecificcountries</source_model>
+                </field>
+                <field id="specificcountry" translate="label" type="multiselect" sortOrder="51" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment from Specific Countries</label>
+                    <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+                <field id="min_order_total" translate="label" type="text" sortOrder="98" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Minimum Order Total</label>
+                </field>
+                <field id="max_order_total" translate="label" type="text" sortOrder="99" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Maximum Order Total</label>
+                </field>
+                <field id="model"></field>
+                <!--custom-->
+                <field id="payment_url" translate="label" type="text"
+                       sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Payment URL</label>
+                </field>
+                <field id="merchant_id" translate="label" type="text"
+                       sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>MerchantID</label>
+                </field>
+                <field id="access_code" translate="label" type="text"
+                       sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Access Code</label>
+                </field>
+                <field id="hash_code" translate="label" type="text"
+                       sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Hash Code</label>
+                </field>
+                <field id="querydr_url" translate="label" type="text"
+                       sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>QueryDR URL</label>
+                    <validate>required-entry validate-url</validate>
+                </field>
+                <field id="querydr_user" translate="label" type="text"
+                       sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>QueryDR User</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="querydr_password" translate="label" type="text"
+                       sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>QueryDR Password</label>
+                    <validate>required-entry</validate>
+                </field>
+                <field id="order_prefix" translate="label comment" type="text"
+                       sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Order Prefix</label>
+                    <comment>Input your store Order Prefix. Example: ecomteck</comment>
+                    <validate>required-entry</validate>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

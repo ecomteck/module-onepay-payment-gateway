@@ -1,0 +1,93 @@
+<!--
+/**
+ * Ecomteck
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Ecomteck.com license that is
+ * available through the world-wide-web at this URL:
+ * https://ecomteck.com/LICENSE.txt
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade this extension to newer
+ * version in the future.
+ *
+ * @category    Ecomteck
+ * @package     Ecomteck_OnePay
+ * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license     https://ecomteck.com/LICENSE.txt
+ */
+-->
+<div class="payment-method" data-bind="css: {'_active': (getCode() == isChecked())}">
+    <div class="payment-method-title field choice">
+        <input type="radio"
+               name="payment[method]"
+               class="radio"
+               data-bind="attr: {'id': getCode()}, value: getCode(), checked: isChecked, click: selectPaymentMethod, visible: isRadioButtonVisible()"/>
+        <label data-bind="attr: {'for': getCode()}" class="label"><span data-bind="text: getTitle()"></span></label>
+    </div>
+    <div class="payment-method-content">
+        <!-- ko foreach: getRegion('messages') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!--/ko-->
+        <div class="banks-list">
+            <span class="payment-description">
+                <span data-bind="i18n: 'You need to have the domestic card information and Internet Banking account.'" class="intro"></span>
+                <span data-bind="i18n: 'The banks list accepted.'" class="intro"></span>
+            </span>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/vietcombank.png'), alt: $t('Vietcombank'), title: $t('Vietcombank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/vietinbank.png'), alt: $t('Vietinbank'), title: $t('Vietinbank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/techcombank.png'), alt: $t('Techcombank'), title: $t('Techcombank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/tpbank.png'), alt: $t('TPBank'), title: $t('TPBank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/vibbank.png'), alt: $t('VIB'), title: $t('VIB')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/dongabank.png'), alt: $t('DongABank'), title: $t('DongABank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/hdbank.png'), alt: $t('HDBank'), title: $t('HDBank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/mbbank.png'), alt: $t('MB'), title: $t('MB')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/vietabank.png'), alt: $t('VietABank'), title: $t('VietABank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/maritimebank.png'), alt: $t('MARITIMEBANK'), title: $t('MARITIMEBANK')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/eximbank.png'), alt: $t('EximBank'), title: $t('EximBank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/shbbank.png'), alt: $t('SHBBank'), title: $t('SHBBank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/vpbank.png'), alt: $t('VBBank'), title: $t('VBBank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/abbank.png'), alt: $t('ABBank'), title: $t('ABBank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/sacombank.png'), alt: $t('Sacombank'), title: $t('Sacombank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/namabank.png'), alt: $t('NamABank'), title: $t('NamABank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/ocenbank.png'), alt: $t('OcenBank'), title: $t('OcenBank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/bidv.png'), alt: $t('BIDV'), title: $t('BIDV')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/seabank.png'), alt: $t('SeABank'), title: $t('SeABank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/unipay.png'), alt: $t('UnionPay'), title: $t('UnionPay')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/bacabank.png'), alt: $t('BacABank'), title: $t('BacABank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/ncbbank.png'), alt: $t('NCBBank'), title: $t('NCBBank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/agribank.png'), alt: $t('AgriBank'), title: $t('AgriBank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/scbbank.png'), alt: $t('SCBBank'), title: $t('SCBBank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/pvcombank.png'), alt: $t('PVcomBank'), title: $t('PVcomBank')}" class="payment-icon"/>
+            <img data-bind="attr: {src: require.toUrl('Ecomteck_OnePay/images/bank-logo/vietabank.png'), alt: $t('VietABank'), title: $t('VietABank')}" class="payment-icon"/>
+        </div>
+        <div class="payment-method-billing-address">
+            <strong data-bind="i18n: 'Billing Address:'"></strong>
+            <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+        <div class="checkout-agreements-block">
+            <!-- ko foreach: $parent.getRegion('before-place-order') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </div>
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button class="action primary checkout"
+                        type="submit"
+                        data-bind="
+                        click: placeOrder,
+                        attr: {title: $t('Place Order')},
+                        css: {disabled: !isPlaceOrderActionAllowed()},
+                        enable: (getCode() == isChecked())
+                        "
+                        disabled>
+                    <span data-bind="i18n: 'Place Order'"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

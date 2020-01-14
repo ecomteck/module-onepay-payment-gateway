@@ -1,0 +1,39 @@
+{
+    "name": "ecomteck/module-onepay-payment-gateway",
+    "description":"Magento 2 OnePay Payment Gateway",
+    "keywords": [
+        "Payment Gateway",
+        "Magento 2 OnePay Payment Gateway",
+        "Magento 2",
+        "Magento 2 Extension",
+        "Magento 2 Extension Free",
+        "OnePay Payment Gateway",
+        "OnePay in Magento 2",
+        "OnePay"
+    ],
+    "require": {
+        "ecomteck/module-core": "1.*"
+    },
+    "type": "magento2-module",
+    "version": "2.1.1",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "authors": [
+        {
+            "name": "Ecomteck",
+            "email": "ecomteck@gmail.com",
+            "homepage": "https://ecomteck.com",
+            "role": "Magento 2 Extension Provider"
+        }
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Ecomteck\\OnePay\\": ""
+        }
+    }
+}
