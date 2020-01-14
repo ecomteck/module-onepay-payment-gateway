@@ -26,10 +26,17 @@
             <group id="onepay_domestic" translate="label" type="text"
                    sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>OnePay Domestic ATM Card</label>
-                <field id="active" translate="label"
+                <field id="active" translate="label comment"
                        type="select" sortOrder="1" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Enabled</label>
+                    <comment><![CDATA[
+                    Real Domestic Payment Account Information: <br/>
+                    URL Payment: https://onepay.vn/onecomm-pay/vpc.op <br/>
+                    MerchantID: YOUR MERCHANT ID <br/>
+                    Accesscode: YOUR ACCESSCODE <br/>
+                    Hashcode (other name is SECURE_SECRET): YOUR SECURE SECRET
+                    ]]></comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="order_status" translate="label"
@@ -64,36 +71,43 @@
                 <field id="payment_url" translate="label" type="text"
                        sortOrder="11" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Payment URL</label>
+                    <comment>Test Mode use the URL: https://mtf.onepay.vn/onecomm-pay/vpc.op</comment>
                     <validate>required-entry validate-url</validate>
                 </field>
                 <field id="merchant_id" translate="label" type="text"
                        sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>MerchantID</label>
+                    <comment>Test Mode use ID: ONEPAY</comment>
                     <validate>required-entry</validate>
                 </field>
                 <field id="access_code" translate="label" type="text"
                        sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Access Code</label>
+                    <comment>Test Mode use CODE: D67342C2</comment>
                     <validate>required-entry</validate>
                 </field>
-                <field id="hash_code" translate="label" type="text"
+                <field id="hash_code" translate="label" type="password"
                        sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Hash Code</label>
+                    <comment>Test Mode use CODE: A3EFDFABA8653DF2342E8DAC29B51AF0</comment>
                     <validate>required-entry</validate>
                 </field>
                 <field id="querydr_url" translate="label" type="text"
                        sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>QueryDR URL</label>
+                    <comment>Test Mode use URL: https://mtf.onepay.vn/onecomm-pay/Vpcdps.op</comment>
                     <validate>required-entry validate-url</validate>
                 </field>
                 <field id="querydr_user" translate="label" type="text"
                        sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>QueryDR User</label>
+                    <comment>Test Mode use USER: op1</comment>
                     <validate>required-entry</validate>
                 </field>
-                <field id="querydr_password" translate="label" type="text"
+                <field id="querydr_password" translate="label" type="password"
                        sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>QueryDR Password</label>
+                    <comment>Test Mode use Password: op1231456</comment>
                     <validate>required-entry</validate>
                 </field>
                 <field id="order_prefix" translate="label comment" type="text"
@@ -106,10 +120,17 @@
             <group id="onepay_international" translate="label" type="text"
                    sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>OnePay International Card (Visa, MasterCard)</label>
-                <field id="active" translate="label"
+                <field id="active" translate="label comment"
                        type="select" sortOrder="1" showInDefault="1"
                        showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Enabled</label>
+                    <comment><![CDATA[
+                    Real International Payment Account Information: <br/>
+                    URL Payment: https://onepay.vn/vpcpay/vpcpay.op <br/>
+                    MerchantID: YOUR MERCHANT ID <br/>
+                    Accesscode: YOUR ACCESS CODE <br/>
+                    Hashcode (Other Name is SECURE_SECRET): YOUR SECURE SECRET
+                    ]]></comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                 </field>
                 <field id="order_status" translate="label"
@@ -153,7 +174,7 @@
                        sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Access Code</label>
                 </field>
-                <field id="hash_code" translate="label" type="text"
+                <field id="hash_code" translate="label" type="password"
                        sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>Hash Code</label>
                 </field>
@@ -167,7 +188,7 @@
                     <label>QueryDR User</label>
                     <validate>required-entry</validate>
                 </field>
-                <field id="querydr_password" translate="label" type="text"
+                <field id="querydr_password" translate="label" type="password"
                        sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>QueryDR Password</label>
                     <validate>required-entry</validate>

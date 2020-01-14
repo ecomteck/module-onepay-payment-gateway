@@ -34,3 +34,7 @@ Extension homepage: https://ecomteck.com
 
 ![ScreenShot](./Screenshot/international-card.png)
 #### *The OnePay payment gateway - International card*
+
+### - Document to integration:
+ - DOMESTIC PAYMENT GATEWAY: https://mtf.onepay.vn/developer/resource/documents/docx/introduction_merchant_integration_local.pdf
+ - INTERNATIONAL PAYMENT GATEWAY: https://mtf.onepay.vn/developer/resource/documents/docx/introduction_merchant_integration.pdf
