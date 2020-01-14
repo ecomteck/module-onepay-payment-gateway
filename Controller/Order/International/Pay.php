@@ -14,10 +14,10 @@
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @category    Ecomteck
- * @package     Ecomteck_OnePay
- * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
- * @license     https://ecomteck.com/LICENSE.txt
+ * @category  Ecomteck
+ * @package   Ecomteck_OnePay
+ * @copyright Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license   https://ecomteck.com/LICENSE.txt
  */
 
 namespace Ecomteck\OnePay\Controller\Order\International;
@@ -41,9 +41,9 @@ class Pay extends \Magento\Framework\App\Action\Action
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Ecomteck\OnePay\Helper\Data $onePayHelperData
-     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Sales\Model\OrderFactory     $orderFactory
+     * @param \Ecomteck\OnePay\Helper\Data          $onePayHelperData
+     * @param \Magento\Checkout\Model\Session       $checkoutSession
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -60,7 +60,7 @@ class Pay extends \Magento\Framework\App\Action\Action
     /**
      * OnePay calls back for updating the order status
      *
-     * @return \Magento\Framework\Controller\Result\RedirectFactory
+     * @return \Magento\Framework\Controller\Result\Redirect
      */
     public function execute()
     {
@@ -111,54 +111,54 @@ class Pay extends \Magento\Framework\App\Action\Action
     /**
      * Retrieve the response description
      *
-     * @param string $responseCode
+     * @param  string $responseCode
      * @return string
      */
     private function getResponseDescription($responseCode)
     {
         switch ($responseCode) {
-            case '?' :
-                $result = __('Transaction status is unknown.');
-                break;
-            case '1' :
-            case '9' :
-                $result = __('Issuer Bank declined the transaction. Please contact Issuer Bank.');
-                break;
-            case '2' :
-                $result = __('Bank Declined Transaction.');
-                break;
-            case '3' :
-                $result = __('Issuer Bank declined the transaction.');
-                break;
-            case '4' :
-                $result = __('Your card is expired.');
-                break;
-            case '5' :
-                $result = __('Your credit account is insufficient funds.');
-                break;
-            case '6' :
-                $result = __('Error from Issuer Bank.');
-                break;
-            case '7' :
-                $result = __('Error when processing transaction.');
-                break;
-            case '8' :
-                $result = __('Issuer Bank does not support E-commerce transaction.');
-                break;
-            case '99' :
-                $result = __('User canceled transaction.');
-                break;
-            case 'B' :
-                $result = __('Cannot authenticated by 3D-Secure Program. Please contact Issuer Bank.');
-                break;
-            case 'E' :
-                $result = __('Wrong CSC entered or Issuer Bank declined the transaction. Please contact Issuer Bank.');
-                break;
-            case 'F' :
-                $result = __('3D Secure Authentication Failed.');
-                break;
-            default :
-                $result = __('Transaction was failed.');
+        case '?' :
+            $result = __('Transaction status is unknown.');
+            break;
+        case '1' :
+        case '9' :
+            $result = __('Issuer Bank declined the transaction. Please contact Issuer Bank.');
+            break;
+        case '2' :
+            $result = __('Bank Declined Transaction.');
+            break;
+        case '3' :
+            $result = __('Issuer Bank declined the transaction.');
+            break;
+        case '4' :
+            $result = __('Your card is expired.');
+            break;
+        case '5' :
+            $result = __('Your credit account is insufficient funds.');
+            break;
+        case '6' :
+            $result = __('Error from Issuer Bank.');
+            break;
+        case '7' :
+            $result = __('Error when processing transaction.');
+            break;
+        case '8' :
+            $result = __('Issuer Bank does not support E-commerce transaction.');
+            break;
+        case '99' :
+            $result = __('User canceled transaction.');
+            break;
+        case 'B' :
+            $result = __('Cannot authenticated by 3D-Secure Program. Please contact Issuer Bank.');
+            break;
+        case 'E' :
+            $result = __('Wrong CSC entered or Issuer Bank declined the transaction. Please contact Issuer Bank.');
+            break;
+        case 'F' :
+            $result = __('3D Secure Authentication Failed.');
+            break;
+        default :
+            $result = __('Transaction was failed.');
         }
         return $result;
     }

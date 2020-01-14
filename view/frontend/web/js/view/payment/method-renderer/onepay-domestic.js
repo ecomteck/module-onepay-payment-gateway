@@ -12,10 +12,10 @@
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @category    Ecomteck
- * @package     Ecomteck_OnePay
- * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
- * @license     https://ecomteck.com/LICENSE.txt
+ * @category  Ecomteck
+ * @package   Ecomteck_OnePay
+ * @copyright Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license   https://ecomteck.com/LICENSE.txt
  */
 define(
     [
@@ -27,53 +27,64 @@ define(
     ],
     function (Component, additionalValidators, redirectOnSuccessAction, urlBuilder, $) {
         'use strict';
-        return Component.extend({
-            defaults: {
-                template: 'Ecomteck_OnePay/payment/onepay-domestic',
-            },
+        return Component.extend(
+            {
+                defaults: {
+                    template: 'Ecomteck_OnePay/payment/onepay-domestic',
+                },
 
-            /**
-             * Place order.
-             */
-            placeOrder: function (data, event) {
-                var self = this;
+                /**
+                 * Place order.
+                 */
+                placeOrder: function (data, event) {
+                    var self = this;
 
-                if (event) {
-                    event.preventDefault();
-                }
+                    if (event) {
+                        event.preventDefault();
+                    }
 
-                if (this.validate() && additionalValidators.validate()) {
-                    this.isPlaceOrderActionAllowed(false);
+                    if (this.validate() && additionalValidators.validate()) {
+                        this.isPlaceOrderActionAllowed(false);
 
-                    this.getPlaceOrderDeferredObject()
-                        .fail(function () {
+                        this.getPlaceOrderDeferredObject()
+                        .fail(
+                            function () {
                                 self.isPlaceOrderActionAllowed(true);
-                            }).done(function (orderID) {
-                                $.ajax({
-                                    url: urlBuilder.build('onepay_payment_portal/order/domestic_placeOrder'),
-                                    data: {'order_id': orderID},
-                                    dataType: 'json',
-                                    type: 'POST'
-                                }).done(function (response) {
-                                    if (!response.error) {
-                                        window.location.replace(response.payment_url);
-                                        self.redirectAfterPlaceOrder = false;
-                                    } else {
-                                        redirectOnSuccessAction.execute();
-                                    }
-                                }).fail(function (response) {
-                                    console.log(response);
-                                    redirectOnSuccessAction.execute();
-                                });
+                            }
+                        ).done(
+                            function (orderID) {
+                                    $.ajax(
+                                        {
+                                            url: urlBuilder.build('onepay_payment_portal/order/domestic_placeOrder'),
+                                            data: {'order_id': orderID},
+                                            dataType: 'json',
+                                            type: 'POST'
+                                        }
+                                    ).done(
+                                        function (response) {
+                                            if (!response.error) {
+                                                window.location.replace(response.payment_url);
+                                                self.redirectAfterPlaceOrder = false;
+                                            } else {
+                                                redirectOnSuccessAction.execute();
+                                            }
+                                        }
+                                    ).fail(
+                                        function (response) {
+                                            console.log(response);
+                                            redirectOnSuccessAction.execute();
+                                        }
+                                    );
 
-                                self.afterPlaceOrder();
+                                    self.afterPlaceOrder();
                             }
                         );
-                    return true;
-                }
+                        return true;
+                    }
 
-                return false;
+                    return false;
+                }
             }
-        });
+        );
     }
 );

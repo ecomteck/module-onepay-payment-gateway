@@ -13,10 +13,10 @@
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @category    Ecomteck
- * @package     Ecomteck_OnePay
- * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
- * @license     https://ecomteck.com/LICENSE.txt
+ * @category  Ecomteck
+ * @package   Ecomteck_OnePay
+ * @copyright Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license   https://ecomteck.com/LICENSE.txt
  */
 
 namespace Ecomteck\OnePay\Controller\Order\Domestic;
@@ -40,9 +40,9 @@ class Pay extends \Magento\Framework\App\Action\Action
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Ecomteck\OnePay\Helper\Data $onePayHelperData
-     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Sales\Model\OrderFactory     $orderFactory
+     * @param \Ecomteck\OnePay\Helper\Data          $onePayHelperData
+     * @param \Magento\Checkout\Model\Session       $checkoutSession
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -59,7 +59,7 @@ class Pay extends \Magento\Framework\App\Action\Action
     /**
      * OnePay calls back for updating the order status
      *
-     * @return \Magento\Framework\Controller\Result\RedirectFactory
+     * @return \Magento\Framework\Controller\Result\Redirect
      */
     public function execute()
     {
@@ -110,66 +110,66 @@ class Pay extends \Magento\Framework\App\Action\Action
     /**
      * Retrieve the response description
      *
-     * @param string $responseCode
+     * @param  string $responseCode
      * @return string
      */
     private function getResponseDescription($responseCode)
     {
         switch ($responseCode) {
-            case '1' :
-                $result = __('Bank Declined Transaction.');
-                break;
-            case '3' :
-                $result = __('Merchant no longer exist.');
-                break;
-            case '4' :
-                $result = __('Invalid access code.');
-                break;
-            case '5' :
-                $result = __('Invalid amount.');
-                break;
-            case '6' :
-                $result = __('Invalid currency code.');
-                break;
-            case '7' :
-                $result = __('Unspecified Failure.');
-                break;
-            case '8' :
-                $result = __('Invalid card Number.');
-                break;
-            case '9' :
-            case '23' :
-                $result = __('Invalid card name.');
-                break;
-            case '10' :
-                $result = __('Expired Card.');
-                break;
-            case '11' :
-                $result = __('Card Not Registered Service Internet Banking.');
-                break;
-            case '12' :
-                $result = __('Invalid card date.');
-                break;
-            case '13' :
-                $result = __('Exist Amount.');
-                break;
-            case '21' :
-                $result = __('Insufficient fund.');
-                break;
-            case '24' :
-                $result = __('Invalid card info.');
-                break;
-            case '25' :
-                $result = __('Invalid OTP.');
-                break;
-            case '253' :
-                $result = __('Transaction timeout.');
-                break;
-            case '99' :
-                $result = __('User canceled transaction.');
-                break;
-            default :
-                $result = __('Transaction was failed.');
+        case '1' :
+            $result = __('Bank Declined Transaction.');
+            break;
+        case '3' :
+            $result = __('Merchant no longer exist.');
+            break;
+        case '4' :
+            $result = __('Invalid access code.');
+            break;
+        case '5' :
+            $result = __('Invalid amount.');
+            break;
+        case '6' :
+            $result = __('Invalid currency code.');
+            break;
+        case '7' :
+            $result = __('Unspecified Failure.');
+            break;
+        case '8' :
+            $result = __('Invalid card Number.');
+            break;
+        case '9' :
+        case '23' :
+            $result = __('Invalid card name.');
+            break;
+        case '10' :
+            $result = __('Expired Card.');
+            break;
+        case '11' :
+            $result = __('Card Not Registered Service Internet Banking.');
+            break;
+        case '12' :
+            $result = __('Invalid card date.');
+            break;
+        case '13' :
+            $result = __('Exist Amount.');
+            break;
+        case '21' :
+            $result = __('Insufficient fund.');
+            break;
+        case '24' :
+            $result = __('Invalid card info.');
+            break;
+        case '25' :
+            $result = __('Invalid OTP.');
+            break;
+        case '253' :
+            $result = __('Transaction timeout.');
+            break;
+        case '99' :
+            $result = __('User canceled transaction.');
+            break;
+        default :
+            $result = __('Transaction was failed.');
         }
         return $result;
     }

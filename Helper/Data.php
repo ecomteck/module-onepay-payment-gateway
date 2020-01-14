@@ -13,32 +13,68 @@
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @category    Ecomteck
- * @package     Ecomteck_OnePay
- * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
- * @license     https://ecomteck.com/LICENSE.txt
+ * @category  Ecomteck
+ * @package   Ecomteck_OnePay
+ * @copyright Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license   https://ecomteck.com/LICENSE.txt
  */
 
 namespace Ecomteck\OnePay\Helper;
 
+/**
+ * Class Data
+ *
+ * @package Ecomteck\OnePay\Helper
+ */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
-    const ONEPAY_DOMESTIC_CARD_PAYMENT_URL = 'payment/onepay_domestic/payment_url';
-    const ONEPAY_DOMESTIC_CARD_ACCESS_CODE = 'payment/onepay_domestic/access_code';
-    const ONEPAY_DOMESTIC_CARD_MERCHANT_ID = 'payment/onepay_domestic/merchant_id';
-    const ONEPAY_DOMESTIC_CARD_HASH_CODE = 'payment/onepay_domestic/hash_code';
-    const ONEPAY_DOMESTIC_CARD_QUERYDR_URL = 'payment/onepay_domestic/querydr_url';
-    const ONEPAY_DOMESTIC_CARD_QUERYDR_USER = 'payment/onepay_domestic/querydr_user';
-    const ONEPAY_DOMESTIC_CARD_QUERYDR_PASSWORD = 'payment/onepay_domestic/querydr_password';
-    const ONEPAY_DOMESTIC_CARD_ORDER_PREFIX = 'payment/onepay_domestic/order_prefix';
-    const ONEPAY_INTERNATIONAL_CARD_PAYMENT_URL = 'payment/onepay_international/payment_url';
-    const ONEPAY_INTERNATIONAL_CARD_ACCESS_CODE = 'payment/onepay_international/access_code';
-    const ONEPAY_INTERNATIONAL_CARD_MERCHANT_ID = 'payment/onepay_international/merchant_id';
-    const ONEPAY_INTERNATIONAL_CARD_HASH_CODE = 'payment/onepay_international/hash_code';
-    const ONEPAY_INTERNATIONAL_CARD_QUERYDR_URL = 'payment/onepay_international/querydr_url';
-    const ONEPAY_INTERNATIONAL_CARD_QUERYDR_USER = 'payment/onepay_international/querydr_user';
-    const ONEPAY_INTERNATIONAL_CARD_QUERYDR_PASSWORD = 'payment/onepay_international/querydr_password';
-    const ONEPAY_INTERNATIONAL_CARD_ORDER_PREFIX = 'payment/onepay_domestic/order_prefix';
+    const ONEPAY_DOMESTIC_CARD_PAYMENT_URL
+        = 'payment/onepay_domestic/payment_url';
+
+    const ONEPAY_DOMESTIC_CARD_ACCESS_CODE
+        = 'payment/onepay_domestic/access_code';
+
+    const ONEPAY_DOMESTIC_CARD_MERCHANT_ID
+        = 'payment/onepay_domestic/merchant_id';
+
+    const ONEPAY_DOMESTIC_CARD_HASH_CODE
+        = 'payment/onepay_domestic/hash_code';
+
+    const ONEPAY_DOMESTIC_CARD_QUERYDR_URL
+        = 'payment/onepay_domestic/querydr_url';
+
+    const ONEPAY_DOMESTIC_CARD_QUERYDR_USER
+        = 'payment/onepay_domestic/querydr_user';
+
+    const ONEPAY_DOMESTIC_CARD_QUERYDR_PASSWORD
+        = 'payment/onepay_domestic/querydr_password';
+
+    const ONEPAY_DOMESTIC_CARD_ORDER_PREFIX
+        = 'payment/onepay_domestic/order_prefix';
+
+    const ONEPAY_INTERNATIONAL_CARD_PAYMENT_URL
+        = 'payment/onepay_international/payment_url';
+
+    const ONEPAY_INTERNATIONAL_CARD_ACCESS_CODE
+        = 'payment/onepay_international/access_code';
+
+    const ONEPAY_INTERNATIONAL_CARD_MERCHANT_ID
+        = 'payment/onepay_international/merchant_id';
+
+    const ONEPAY_INTERNATIONAL_CARD_HASH_CODE
+        = 'payment/onepay_international/hash_code';
+
+    const ONEPAY_INTERNATIONAL_CARD_QUERYDR_URL
+        = 'payment/onepay_international/querydr_url';
+
+    const ONEPAY_INTERNATIONAL_CARD_QUERYDR_USER
+        = 'payment/onepay_international/querydr_user';
+
+    const ONEPAY_INTERNATIONAL_CARD_QUERYDR_PASSWORD
+        = 'payment/onepay_international/querydr_password';
+
+    const ONEPAY_INTERNATIONAL_CARD_ORDER_PREFIX
+        = 'payment/onepay_domestic/order_prefix';
 
     /**
      * @var \Magento\Framework\Locale\ResolverInterface
@@ -51,9 +87,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Framework\App\Helper\Context       $context
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface  $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
@@ -276,26 +312,27 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Retrieve the total paid
      *
-     * @param \Magento\Sales\Model\Order $orderObject
+     * @param  \Magento\Sales\Model\Order $orderObject
      * @return string
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getTotalPaid($orderObject)
     {
         $baseCurrencyCode = $orderObject->getBaseCurrencyCode();
         switch ($baseCurrencyCode) {
-            case 'VND':
-                return $orderObject->getBaseGrandTotal();
+        case 'VND':
+            return $orderObject->getBaseGrandTotal();
                 break;
-            default:
-                $orderCurrencyCode = $orderObject->getOrderCurrencyCode();
-                if ($orderCurrencyCode == 'VND') {
-                    return $orderObject->getGrandTotal();
-                }
-                $currencyRate = $this->_storeManager->getStore()->getBaseCurrency()->getRate('VND');
-                if ($currencyRate) {
-                    return round($orderObject->getGrandTotal() * $currencyRate, 0);
-                }
+        default:
+            $orderCurrencyCode = $orderObject->getOrderCurrencyCode();
+            if ($orderCurrencyCode == 'VND') {
                 return $orderObject->getGrandTotal();
+            }
+            $currencyRate = $this->_storeManager->getStore()->getBaseCurrency()->getRate('VND');
+            if ($currencyRate) {
+                return round($orderObject->getGrandTotal() * $currencyRate, 0);
+            }
+            return $orderObject->getGrandTotal();
                 break;
         }
     }
@@ -303,23 +340,24 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Retrieve the base amount paid
      *
-     * @param \Magento\Sales\Model\Order $orderObject
-     * @param string $amount
+     * @param  \Magento\Sales\Model\Order $orderObject
+     * @param  string                     $amount
      * @return string
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getBaseAmountPaid($orderObject, $amount)
     {
         $baseCurrencyCode = $orderObject->getBaseCurrencyCode();
         switch ($baseCurrencyCode) {
-            case 'VND':
-                return $amount;
+        case 'VND':
+            return $amount;
                 break;
-            default:
-                $currencyRate = $this->_storeManager->getStore()->getBaseCurrency()->getRate('VND');
-                if ($currencyRate) {
-                    return round($amount/$currencyRate, 0);
-                }
-                return $amount;
+        default:
+            $currencyRate = $this->_storeManager->getStore()->getBaseCurrency()->getRate('VND');
+            if ($currencyRate) {
+                return round($amount/$currencyRate, 0);
+            }
+            return $amount;
                 break;
         }
     }
@@ -341,35 +379,36 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Retrieve the amount paid by current store
      *
-     * @param \Magento\Sales\Model\Order $orderObject
-     * @param string $amount
+     * @param  \Magento\Sales\Model\Order $orderObject
+     * @param  string                     $amount
      * @return string
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function getAmountPaid($orderObject, $amount)
     {
         $baseCurrencyCode = $orderObject->getBaseCurrencyCode();
         switch ($baseCurrencyCode) {
-            case 'VND':
-                $orderCurrencyCode = $orderObject->getOrderCurrencyCode();
-                if ($orderCurrencyCode == 'VND') {
-                    return $amount;
-                }
-                $currencyRate = $this->_storeManager->getStore()->getBaseCurrency()->getRate($orderCurrencyCode);
-                if ($currencyRate) {
-                    return round($amount * $currencyRate, 0);
-                }
+        case 'VND':
+            $orderCurrencyCode = $orderObject->getOrderCurrencyCode();
+            if ($orderCurrencyCode == 'VND') {
                 return $amount;
+            }
+            $currencyRate = $this->_storeManager->getStore()->getBaseCurrency()->getRate($orderCurrencyCode);
+            if ($currencyRate) {
+                return round($amount * $currencyRate, 0);
+            }
+            return $amount;
                 break;
-            default:
-                $orderCurrencyCode = $orderObject->getOrderCurrencyCode();
-                if ($orderCurrencyCode == 'VND') {
-                    return $amount;
-                }
-                $currencyRate = $this->_storeManager->getStore()->getBaseCurrency()->getRate('VND');
-                if ($currencyRate) {
-                    return round($amount / $currencyRate, 0);
-                }
+        default:
+            $orderCurrencyCode = $orderObject->getOrderCurrencyCode();
+            if ($orderCurrencyCode == 'VND') {
                 return $amount;
+            }
+            $currencyRate = $this->_storeManager->getStore()->getBaseCurrency()->getRate('VND');
+            if ($currencyRate) {
+                return round($amount / $currencyRate, 0);
+            }
+            return $amount;
                 break;
         }
     }

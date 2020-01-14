@@ -13,10 +13,10 @@
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @category    Ecomteck
- * @package     Ecomteck_OnePay
- * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
- * @license     https://ecomteck.com/LICENSE.txt
+ * @category  Ecomteck
+ * @package   Ecomteck_OnePay
+ * @copyright Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license   https://ecomteck.com/LICENSE.txt
  */
 
 namespace Ecomteck\OnePay\Cron;
@@ -44,10 +44,10 @@ class QueryDr
     protected $logger;
 
     /**
-     * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Ecomteck\OnePay\Helper\Data $onePayHelperData
+     * @param \Magento\Sales\Model\OrderFactory                    $orderFactory
+     * @param \Ecomteck\OnePay\Helper\Data                         $onePayHelperData
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Psr\Log\LoggerInterface                             $logger
      */
     public function __construct(
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -64,7 +64,7 @@ class QueryDr
     /**
      * Processing update order status
      *
-     * @return void
+     * @return bool
      */
     public function execute()
     {
