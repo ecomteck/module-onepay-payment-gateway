@@ -40,7 +40,7 @@ In this module, I integrated two payments gateway of OnePay, that is the Domesti
 
 ### - On the Backend Settings:
 
-![ScreenShot](./Screenshot/backend_onepay_payment_domestic_settings)
+![ScreenShot](./Screenshot/backend_onepay_payment_domestic_settings.png)
 #### *The OnePay payment gateway settings - Domestic ATM card*
 
 ![ScreenShot](./Screenshot/backend_onepay_payment_international_settings.png)
