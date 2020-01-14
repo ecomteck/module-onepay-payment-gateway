@@ -21,6 +21,9 @@
 
 namespace Ecomteck\OnePay\Model;
 
+/**
+ * Class OnePayInternationalCard
+ */
 class OnePayInternationalCard extends \Magento\Payment\Model\Method\AbstractMethod
 {
     const PAYMENT_METHOD_ONEPAY_INTERNATIONAL_CARD_CODE = 'onepay_international';

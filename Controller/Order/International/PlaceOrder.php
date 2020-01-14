@@ -21,6 +21,9 @@
 
 namespace Ecomteck\OnePay\Controller\Order\International;
 
+/**
+ * Class PlaceOrder
+ */
 class PlaceOrder extends \Magento\Framework\App\Action\Action
 {
     /**
@@ -122,9 +125,10 @@ class PlaceOrder extends \Magento\Framework\App\Action\Action
                 'AgainLink' => $this->_url->getUrl('checkout'),
                 'Title' => __('OnePAY Payment Gateway')
             ];
+
             ksort($params);
-            foreach($params as $key => $value)
-            {
+
+            foreach ($params as $key => $value) {
                 $paymentUrl .= urlencode($key) . '=' . urlencode($value) . '&';
                 if (strlen($value) > 0 && (substr($key, 0, 4) == 'vpc_' || substr($key, 0, 5) == 'user_')) {
                     $md5HashData .= $key . '=' . $value . '&';

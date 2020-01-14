@@ -21,6 +21,9 @@
 
 namespace Ecomteck\OnePay\Model;
 
+/**
+ * Class OnePayDomesticCard
+ */
 class OnePayDomesticCard extends \Magento\Payment\Model\Method\AbstractMethod
 {
     const PAYMENT_METHOD_ONEPAY_DOMESTIC_CARD_CODE = 'onepay_domestic';

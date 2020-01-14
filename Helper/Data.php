@@ -23,8 +23,6 @@ namespace Ecomteck\OnePay\Helper;
 
 /**
  * Class Data
- *
- * @package Ecomteck\OnePay\Helper
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -79,12 +77,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @var \Magento\Framework\Locale\ResolverInterface
      */
-    protected $_localeResolver;
+    protected $localeResolver;
 
     /**
      * @var \Magento\Framework\Locale\ResolverInterface
      */
-    protected $_storeManager;
+    protected $storeManager;
 
     /**
      * @param \Magento\Framework\App\Helper\Context       $context
@@ -96,8 +94,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
-        $this->_localeResolver = $localeResolver;
-        $this->_storeManager = $storeManager;
+        $this->localeResolver = $localeResolver;
+        $this->storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -320,20 +318,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $baseCurrencyCode = $orderObject->getBaseCurrencyCode();
         switch ($baseCurrencyCode) {
-        case 'VND':
-            return $orderObject->getBaseGrandTotal();
-                break;
-        default:
-            $orderCurrencyCode = $orderObject->getOrderCurrencyCode();
-            if ($orderCurrencyCode == 'VND') {
+            case 'VND':
+                return $orderObject->getBaseGrandTotal();
+            default:
+                $orderCurrencyCode = $orderObject->getOrderCurrencyCode();
+                if ($orderCurrencyCode == 'VND') {
+                    return $orderObject->getGrandTotal();
+                }
+
+                $currencyRate = $this->storeManager->getStore()
+                ->getBaseCurrency()
+                ->getRate('VND');
+
+                if ($currencyRate) {
+                    return round($orderObject->getGrandTotal() * $currencyRate, 0);
+                }
                 return $orderObject->getGrandTotal();
-            }
-            $currencyRate = $this->_storeManager->getStore()->getBaseCurrency()->getRate('VND');
-            if ($currencyRate) {
-                return round($orderObject->getGrandTotal() * $currencyRate, 0);
-            }
-            return $orderObject->getGrandTotal();
-                break;
         }
     }
 
@@ -349,16 +349,17 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $baseCurrencyCode = $orderObject->getBaseCurrencyCode();
         switch ($baseCurrencyCode) {
-        case 'VND':
-            return $amount;
-                break;
-        default:
-            $currencyRate = $this->_storeManager->getStore()->getBaseCurrency()->getRate('VND');
-            if ($currencyRate) {
-                return round($amount/$currencyRate, 0);
-            }
-            return $amount;
-                break;
+            case 'VND':
+                return $amount;
+            default:
+                $currencyRate = $this->storeManager->getStore()
+                ->getBaseCurrency()
+                ->getRate('VND');
+
+                if ($currencyRate) {
+                    return round($amount/$currencyRate, 0);
+                }
+                return $amount;
         }
     }
 
@@ -369,7 +370,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getLocale()
     {
-        $locale = $this->_localeResolver->getLocale();
+        $locale = $this->localeResolver->getLocale();
         if ($locale == 'vi_VN') {
             return 'vn';
         }
@@ -388,28 +389,34 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $baseCurrencyCode = $orderObject->getBaseCurrencyCode();
         switch ($baseCurrencyCode) {
-        case 'VND':
-            $orderCurrencyCode = $orderObject->getOrderCurrencyCode();
-            if ($orderCurrencyCode == 'VND') {
+            case 'VND':
+                $orderCurrencyCode = $orderObject->getOrderCurrencyCode();
+                if ($orderCurrencyCode == 'VND') {
+                    return $amount;
+                }
+
+                $currencyRate = $this->storeManager->getStore()
+                ->getBaseCurrency()
+                ->getRate($orderCurrencyCode);
+
+                if ($currencyRate) {
+                    return round($amount * $currencyRate, 0);
+                }
                 return $amount;
-            }
-            $currencyRate = $this->_storeManager->getStore()->getBaseCurrency()->getRate($orderCurrencyCode);
-            if ($currencyRate) {
-                return round($amount * $currencyRate, 0);
-            }
-            return $amount;
-                break;
-        default:
-            $orderCurrencyCode = $orderObject->getOrderCurrencyCode();
-            if ($orderCurrencyCode == 'VND') {
+            default:
+                $orderCurrencyCode = $orderObject->getOrderCurrencyCode();
+                if ($orderCurrencyCode == 'VND') {
+                    return $amount;
+                }
+
+                $currencyRate = $this->storeManager->getStore()
+                ->getBaseCurrency()
+                ->getRate('VND');
+
+                if ($currencyRate) {
+                    return round($amount / $currencyRate, 0);
+                }
                 return $amount;
-            }
-            $currencyRate = $this->_storeManager->getStore()->getBaseCurrency()->getRate('VND');
-            if ($currencyRate) {
-                return round($amount / $currencyRate, 0);
-            }
-            return $amount;
-                break;
         }
     }
 }

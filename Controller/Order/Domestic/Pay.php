@@ -21,6 +21,9 @@
 
 namespace Ecomteck\OnePay\Controller\Order\Domestic;
 
+/**
+ * Class Pay
+ */
 class Pay extends \Magento\Framework\App\Action\Action
 {
     /**
@@ -69,8 +72,11 @@ class Pay extends \Magento\Framework\App\Action\Action
         $responseParams = $this->getRequest()->getParams();
         ksort($responseParams);
         $md5HashData = '';
-        foreach($responseParams as $key => $value) {
-            if ($key != 'vpc_SecureHash' && strlen($value) > 0 && ((substr($key, 0, 4) == 'vpc_') || (substr($key, 0, 5) == 'user_'))) {
+        foreach ($responseParams as $key => $value) {
+            if ($key != 'vpc_SecureHash'
+                && strlen($value) > 0
+                && ((substr($key, 0, 4) == 'vpc_') || (substr($key, 0, 5) == 'user_'))
+            ) {
                 $md5HashData .= $key . '=' . $value . '&';
             }
         }
@@ -78,7 +84,10 @@ class Pay extends \Magento\Framework\App\Action\Action
         $hash = strtoupper(hash_hmac('SHA256', $md5HashData, pack('H*', $hasCode)));
         $incrementId = $this->getRequest()->getParam('vpc_OrderInfo', '000000000');
         $order = $this->orderFactory->create()->loadByIncrementId($incrementId);
-        if ($order->getId() && $this->checkoutSession->getLastOrderId() == $order->getId() && $hash == strtoupper($responseHash)) {
+        if ($order->getId()
+            && $this->checkoutSession->getLastOrderId() == $order->getId()
+            && $hash == strtoupper($responseHash)
+        ) {
             try {
                 if ($vpcTxnResponseCode == '0') {
                     $amount = $this->getRequest()->getParam('vpc_Amount', '0');
@@ -89,11 +98,18 @@ class Pay extends \Magento\Framework\App\Action\Action
                         $this->onePayHelperData->getBaseAmountPaid($order, $amount)
                     );
                     $order = $order->setStatus(\Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW);
-                    $this->messageManager->addSuccess(__('You paid by domestic ATM card via OnePay payment gateway successfully.'));
+                    $this->messageManager->addSuccess(
+                        __('You paid by domestic ATM card via OnePay payment gateway successfully.')
+                    );
                     $path = 'checkout/onepage/success';
                 } else {
                     $order = $order->setStatus('payment_onepay_failed');
-                    $this->messageManager->addError(__('Pay by OnePay payment gateway failed, %1', $this->getResponseDescription($vpcTxnResponseCode)));
+                    $this->messageManager->addError(
+                        __(
+                            'Pay by OnePay payment gateway failed, %1',
+                            $this->getResponseDescription($vpcTxnResponseCode)
+                        )
+                    );
                     $path = 'checkout/onepage/failure';
                 }
                 $order->save();
@@ -116,60 +132,60 @@ class Pay extends \Magento\Framework\App\Action\Action
     private function getResponseDescription($responseCode)
     {
         switch ($responseCode) {
-        case '1' :
-            $result = __('Bank Declined Transaction.');
-            break;
-        case '3' :
-            $result = __('Merchant no longer exist.');
-            break;
-        case '4' :
-            $result = __('Invalid access code.');
-            break;
-        case '5' :
-            $result = __('Invalid amount.');
-            break;
-        case '6' :
-            $result = __('Invalid currency code.');
-            break;
-        case '7' :
-            $result = __('Unspecified Failure.');
-            break;
-        case '8' :
-            $result = __('Invalid card Number.');
-            break;
-        case '9' :
-        case '23' :
-            $result = __('Invalid card name.');
-            break;
-        case '10' :
-            $result = __('Expired Card.');
-            break;
-        case '11' :
-            $result = __('Card Not Registered Service Internet Banking.');
-            break;
-        case '12' :
-            $result = __('Invalid card date.');
-            break;
-        case '13' :
-            $result = __('Exist Amount.');
-            break;
-        case '21' :
-            $result = __('Insufficient fund.');
-            break;
-        case '24' :
-            $result = __('Invalid card info.');
-            break;
-        case '25' :
-            $result = __('Invalid OTP.');
-            break;
-        case '253' :
-            $result = __('Transaction timeout.');
-            break;
-        case '99' :
-            $result = __('User canceled transaction.');
-            break;
-        default :
-            $result = __('Transaction was failed.');
+            case '1':
+                $result = __('Bank Declined Transaction.');
+                break;
+            case '3':
+                $result = __('Merchant no longer exist.');
+                break;
+            case '4':
+                $result = __('Invalid access code.');
+                break;
+            case '5':
+                $result = __('Invalid amount.');
+                break;
+            case '6':
+                $result = __('Invalid currency code.');
+                break;
+            case '7':
+                $result = __('Unspecified Failure.');
+                break;
+            case '8':
+                $result = __('Invalid card Number.');
+                break;
+            case '9':
+            case '23':
+                $result = __('Invalid card name.');
+                break;
+            case '10':
+                $result = __('Expired Card.');
+                break;
+            case '11':
+                $result = __('Card Not Registered Service Internet Banking.');
+                break;
+            case '12':
+                $result = __('Invalid card date.');
+                break;
+            case '13':
+                $result = __('Exist Amount.');
+                break;
+            case '21':
+                $result = __('Insufficient fund.');
+                break;
+            case '24':
+                $result = __('Invalid card info.');
+                break;
+            case '25':
+                $result = __('Invalid OTP.');
+                break;
+            case '253':
+                $result = __('Transaction timeout.');
+                break;
+            case '99':
+                $result = __('User canceled transaction.');
+                break;
+            default:
+                $result = __('Transaction was failed.');
         }
         return $result;
     }
