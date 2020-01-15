@@ -13,14 +13,17 @@
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @category    Ecomteck
- * @package     Ecomteck_OnePay
- * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
- * @license     https://ecomteck.com/LICENSE.txt
+ * @category  Ecomteck
+ * @package   Ecomteck_OnePay
+ * @copyright Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license   https://ecomteck.com/LICENSE.txt
  */
 
 namespace Ecomteck\OnePay\Model;
 
+/**
+ * Class OnePayInternationalCard
+ */
 class OnePayInternationalCard extends \Magento\Payment\Model\Method\AbstractMethod
 {
     const PAYMENT_METHOD_ONEPAY_INTERNATIONAL_CARD_CODE = 'onepay_international';

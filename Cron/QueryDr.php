@@ -13,14 +13,19 @@
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @category    Ecomteck
- * @package     Ecomteck_OnePay
- * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
- * @license     https://ecomteck.com/LICENSE.txt
+ * @category  Ecomteck
+ * @package   Ecomteck_OnePay
+ * @copyright Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license   https://ecomteck.com/LICENSE.txt
  */
 
 namespace Ecomteck\OnePay\Cron;
 
+use \Magento\Sales\Model\Order;
+
+/**
+ * Class QueryDr
+ */
 class QueryDr
 {
     /**
@@ -44,10 +49,10 @@ class QueryDr
     protected $logger;
 
     /**
-     * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Ecomteck\OnePay\Helper\Data $onePayHelperData
+     * @param \Magento\Sales\Model\OrderFactory                    $orderFactory
+     * @param \Ecomteck\OnePay\Helper\Data                         $onePayHelperData
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $timezone
-     * @param \Psr\Log\LoggerInterface $logger
+     * @param \Psr\Log\LoggerInterface                             $logger
      */
     public function __construct(
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -64,18 +69,23 @@ class QueryDr
     /**
      * Processing update order status
      *
-     * @return void
+     * @return bool
      */
     public function execute()
     {
         $currentDateTime = strtotime(date('Y-m-d H:i:s'));
         $sixteenMinutesBefore = $currentDateTime - 17*60;
         $dateTimeSixteenMinutesBefore = date('Y-m-d H:i:s', $sixteenMinutesBefore);
-        $orderCollection = $this->orderFactory->create()->getCollection()->addFieldToFilter(
-            'status', 'pending'
-        )->addFieldToFilter(
-            'created_at', ['lteq' => $dateTimeSixteenMinutesBefore]
-        );
+        $orderCollection = $this->orderFactory
+            ->create()
+            ->getCollection()
+            ->addFieldToFilter(
+                'status',
+                'pending'
+            )->addFieldToFilter(
+                'created_at',
+                ['lteq' => $dateTimeSixteenMinutesBefore]
+            );
         $orderIdsFromOnePayDomestic = [];
         $orderIdsFromOnePayInternational = [];
         foreach ($orderCollection as $order) {
@@ -84,7 +94,7 @@ class QueryDr
                 $paymentMethod = $payment->getMethod();
                 if ($paymentMethod == 'onepay_domestic') {
                     $orderIdsFromOnePayDomestic[] = $order->getIncrementId();
-                } else if ($paymentMethod == 'onepay_international') {
+                } elseif ($paymentMethod == 'onepay_international') {
                     $orderIdsFromOnePayInternational[] = $order->getIncrementId();
                 }
             }
@@ -101,7 +111,17 @@ class QueryDr
             $orderPrefix = $orderPrefix?$orderPrefix:'ecomteck';
             foreach ($orderIdsFromOnePayDomestic as $orderId) {
                 $targetUrl = $this->onePayHelperData->getDomesticCardQueryDrUrl();
-                $postFields = 'vpc_Command=queryDR&vpc_Version=2&vpc_MerchTxnRef='.$orderPrefix.$orderId.'&vpc_Merchant='.$merchantId.'&vpc_AccessCode='.$accessCode.'&vpc_User='.$queryDrUser.'&vpc_Password='.$queryDrPassword;
+                $postFields =
+                    'vpc_Command=queryDR&vpc_Version=2&vpc_MerchTxnRef='.
+                    $orderPrefix.
+                    $orderId.
+                    '&vpc_Merchant='.
+                    $merchantId.
+                    '&vpc_AccessCode='.
+                    $accessCode.
+                    '&vpc_User='.
+                    $queryDrUser.
+                    '&vpc_Password='.$queryDrPassword;
 
                 try {
                     $this->logger->critical('Processing for Order Increment ID: '.$orderId);
@@ -146,17 +166,38 @@ class QueryDr
                         $this->orderFactory->create()->loadByIncrementId($orderId)->setStatus(
                             \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW
                         )->save();
-                        $this->logger->critical('Updated the status of order Increment ID: '.$orderId.' to '.\Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW);
+                        $this->logger
+                            ->critical(
+                                'Updated the status of order Increment ID: '.$orderId.' to '.Order::STATE_PAYMENT_REVIEW
+                            );
                     } elseif ($responseCode == '300' && $orderInfo == $orderId) {
-                        $this->orderFactory->create()->loadByIncrementId($orderId)->setStatus('payment_onepay_pending')->save();
-                        $this->logger->critical('Updated the status of order Increment ID: '.$orderId.' to "OnePay Pending"');
+                        $this->orderFactory
+                            ->create()
+                            ->loadByIncrementId($orderId)
+                            ->setStatus('payment_onepay_pending')
+                            ->save();
+                        $this->logger
+                            ->critical('Updated the status of order Increment ID: '.$orderId.' to "OnePay Pending"');
                     } else {
-                        $this->orderFactory->create()->loadByIncrementId($orderId)->setStatus('payment_onepay_failed')->save();
-                        $this->logger->critical('Updated the status of order Increment ID: '.$orderId.' to "OnePay Failed"');
+                        $this->orderFactory
+                            ->create()
+                            ->loadByIncrementId($orderId)
+                            ->setStatus('payment_onepay_failed')
+                            ->save();
+                        $this->logger
+                            ->critical('Updated the status of order Increment ID: '.$orderId.' to "OnePay Failed"');
                         if ($orderInfo != $orderId) {
-                            $message = 'Error could not find order Increment ID: '.$orderId.' on OnePay Payment Gateway';
+                            $message =
+                                'Error could not find order Increment ID: '.$orderId.' on OnePay Payment Gateway';
+
                             $this->logger->critical($message);
-                            $this->orderFactory->create()->loadByIncrementId($orderId)->addStatusHistoryComment($message)->setIsCustomerNotified(false)->setEntityName('order')->save();
+                            $this->orderFactory
+                                ->create()
+                                ->loadByIncrementId($orderId)
+                                ->addStatusHistoryComment($message)
+                                ->setIsCustomerNotified(false)
+                                ->setEntityName('order')
+                                ->save();
                         }
                     }
                 } catch (\Exception $e) {
@@ -178,7 +219,18 @@ class QueryDr
             $orderPrefix = $orderPrefix?$orderPrefix:'ecomteck';
             foreach ($orderIdsFromOnePayInternational as $orderId) {
                 $targetUrl = $this->onePayHelperData->getInternationalCardQueryDrUrl();
-                $postFields = 'vpc_Command=queryDR&vpc_Version=2&vpc_MerchTxnRef='.$orderPrefix.$orderId.'&vpc_Merchant='.$merchantId.'&vpc_AccessCode='.$accessCode.'&vpc_User='.$queryDrUser.'&vpc_Password='.$queryDrPassword;
+                $postFields =
+                    'vpc_Command=queryDR&vpc_Version=2&vpc_MerchTxnRef='.
+                    $orderPrefix.
+                    $orderId.
+                    '&vpc_Merchant='.
+                    $merchantId.
+                    '&vpc_AccessCode='.
+                    $accessCode.
+                    '&vpc_User='.
+                    $queryDrUser.
+                    '&vpc_Password='.
+                    $queryDrPassword;
 
                 try {
                     $this->logger->critical('Processing for Order Increment ID: '.$orderId);
@@ -223,14 +275,29 @@ class QueryDr
                         $this->orderFactory->create()->loadByIncrementId($orderId)->setStatus(
                             \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW
                         )->save();
-                        $this->logger->critical('Updated the status of order Increment ID: '.$orderId.' to '.\Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW);
+                        $this->logger
+                            ->critical(
+                                'Updated the status of order Increment ID: '.$orderId.' to '.Order::STATE_PAYMENT_REVIEW
+                            );
                     } else {
-                        $this->orderFactory->create()->loadByIncrementId($orderId)->setStatus('payment_onepay_failed')->save();
-                        $this->logger->critical('Updated the status of order Increment ID: '.$orderId.' to "OnePay Failed"');
+                        $this->orderFactory
+                            ->create()
+                            ->loadByIncrementId($orderId)
+                            ->setStatus('payment_onepay_failed')
+                            ->save();
+                        $this->logger
+                            ->critical('Updated the status of order Increment ID: '.$orderId.' to "OnePay Failed"');
                         if ($orderInfo != $orderId) {
-                            $message = 'Error could not find order Increment ID: '.$orderId.' on OnePay Payment Gateway';
+                            $message =
+                                'Error could not find order Increment ID: '.$orderId.' on OnePay Payment Gateway';
                             $this->logger->critical($message);
-                            $this->orderFactory->create()->loadByIncrementId($orderId)->addStatusHistoryComment($message)->setIsCustomerNotified(false)->setEntityName('order')->save();
+                            $this->orderFactory
+                                ->create()
+                                ->loadByIncrementId($orderId)
+                                ->addStatusHistoryComment($message)
+                                ->setIsCustomerNotified(false)
+                                ->setEntityName('order')
+                                ->save();
                         }
                     }
                 } catch (\Exception $e) {

@@ -14,14 +14,17 @@
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @category    Ecomteck
- * @package     Ecomteck_OnePay
- * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
- * @license     https://ecomteck.com/LICENSE.txt
+ * @category  Ecomteck
+ * @package   Ecomteck_OnePay
+ * @copyright Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license   https://ecomteck.com/LICENSE.txt
  */
 
 namespace Ecomteck\OnePay\Controller\Order\International;
 
+/**
+ * Class Pay
+ */
 class Pay extends \Magento\Framework\App\Action\Action
 {
     /**
@@ -41,9 +44,9 @@ class Pay extends \Magento\Framework\App\Action\Action
 
     /**
      * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Ecomteck\OnePay\Helper\Data $onePayHelperData
-     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Sales\Model\OrderFactory     $orderFactory
+     * @param \Ecomteck\OnePay\Helper\Data          $onePayHelperData
+     * @param \Magento\Checkout\Model\Session       $checkoutSession
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
@@ -60,7 +63,7 @@ class Pay extends \Magento\Framework\App\Action\Action
     /**
      * OnePay calls back for updating the order status
      *
-     * @return \Magento\Framework\Controller\Result\RedirectFactory
+     * @return \Magento\Framework\Controller\Result\Redirect
      */
     public function execute()
     {
@@ -70,8 +73,10 @@ class Pay extends \Magento\Framework\App\Action\Action
         $responseParams = $this->getRequest()->getParams();
         ksort($responseParams);
         $md5HashData = '';
-        foreach($responseParams as $key => $value) {
-            if ($key != 'vpc_SecureHash' && strlen($value) > 0 && ((substr($key, 0, 4) == 'vpc_') || (substr($key, 0, 5) == 'user_'))) {
+        foreach ($responseParams as $key => $value) {
+            if ($key != 'vpc_SecureHash' && strlen($value) > 0
+                && ((substr($key, 0, 4) == 'vpc_') || (substr($key, 0, 5) == 'user_'))
+            ) {
                 $md5HashData .= $key . '=' . $value . '&';
             }
         }
@@ -79,7 +84,10 @@ class Pay extends \Magento\Framework\App\Action\Action
         $hash = strtoupper(hash_hmac('SHA256', $md5HashData, pack('H*', $hasCode)));
         $incrementId = $this->getRequest()->getParam('vpc_OrderInfo', '000000000');
         $order = $this->orderFactory->create()->loadByIncrementId($incrementId);
-        if ($order->getId() && $this->checkoutSession->getLastOrderId() == $order->getId() && $hash == strtoupper($responseHash)) {
+        if ($order->getId()
+            && $this->checkoutSession->getLastOrderId() == $order->getId()
+            && $hash == strtoupper($responseHash)
+        ) {
             try {
                 if ($vpcTxnResponseCode == '0') {
                     $amount = $this->getRequest()->getParam('vpc_Amount', '0');
@@ -90,11 +98,18 @@ class Pay extends \Magento\Framework\App\Action\Action
                         $this->onePayHelperData->getBaseAmountPaid($order, $amount)
                     );
                     $order = $order->setStatus(\Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW);
-                    $this->messageManager->addSuccess(__('You paid by International Card via OnePay payment gateway successfully.'));
+                    $this->messageManager->addSuccess(
+                        __('You paid by International Card via OnePay payment gateway successfully.')
+                    );
                     $path = 'checkout/onepage/success';
                 } else {
                     $order = $order->setStatus('payment_onepay_failed');
-                    $this->messageManager->addError(__('Pay by OnePay payment gateway failed, %1', $this->getResponseDescription($vpcTxnResponseCode)));
+                    $this->messageManager->addError(
+                        __(
+                            'Pay by OnePay payment gateway failed, %1',
+                            $this->getResponseDescription($vpcTxnResponseCode)
+                        )
+                    );
                     $path = 'checkout/onepage/failure';
                 }
                 $order->save();
@@ -111,53 +126,53 @@ class Pay extends \Magento\Framework\App\Action\Action
     /**
      * Retrieve the response description
      *
-     * @param string $responseCode
+     * @param  string $responseCode
      * @return string
      */
     private function getResponseDescription($responseCode)
     {
         switch ($responseCode) {
-            case '?' :
+            case '?':
                 $result = __('Transaction status is unknown.');
                 break;
-            case '1' :
-            case '9' :
+            case '1':
+            case '9':
                 $result = __('Issuer Bank declined the transaction. Please contact Issuer Bank.');
                 break;
-            case '2' :
+            case '2':
                 $result = __('Bank Declined Transaction.');
                 break;
-            case '3' :
+            case '3':
                 $result = __('Issuer Bank declined the transaction.');
                 break;
-            case '4' :
+            case '4':
                 $result = __('Your card is expired.');
                 break;
-            case '5' :
+            case '5':
                 $result = __('Your credit account is insufficient funds.');
                 break;
-            case '6' :
+            case '6':
                 $result = __('Error from Issuer Bank.');
                 break;
-            case '7' :
+            case '7':
                 $result = __('Error when processing transaction.');
                 break;
-            case '8' :
+            case '8':
                 $result = __('Issuer Bank does not support E-commerce transaction.');
                 break;
-            case '99' :
+            case '99':
                 $result = __('User canceled transaction.');
                 break;
-            case 'B' :
+            case 'B':
                 $result = __('Cannot authenticated by 3D-Secure Program. Please contact Issuer Bank.');
                 break;
-            case 'E' :
+            case 'E':
                 $result = __('Wrong CSC entered or Issuer Bank declined the transaction. Please contact Issuer Bank.');
                 break;
-            case 'F' :
+            case 'F':
                 $result = __('3D Secure Authentication Failed.');
                 break;
-            default :
+            default:
                 $result = __('Transaction was failed.');
         }
         return $result;

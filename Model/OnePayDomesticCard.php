@@ -13,14 +13,17 @@
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @category    Ecomteck
- * @package     Ecomteck_OnePay
- * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
- * @license     https://ecomteck.com/LICENSE.txt
+ * @category  Ecomteck
+ * @package   Ecomteck_OnePay
+ * @copyright Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license   https://ecomteck.com/LICENSE.txt
  */
 
 namespace Ecomteck\OnePay\Model;
 
+/**
+ * Class OnePayDomesticCard
+ */
 class OnePayDomesticCard extends \Magento\Payment\Model\Method\AbstractMethod
 {
     const PAYMENT_METHOD_ONEPAY_DOMESTIC_CARD_CODE = 'onepay_domestic';

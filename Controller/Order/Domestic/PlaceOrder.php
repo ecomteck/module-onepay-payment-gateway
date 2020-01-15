@@ -13,14 +13,17 @@
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @category    Ecomteck
- * @package     Ecomteck_OnePay
- * @copyright   Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
- * @license     https://ecomteck.com/LICENSE.txt
+ * @category  Ecomteck
+ * @package   Ecomteck_OnePay
+ * @copyright Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license   https://ecomteck.com/LICENSE.txt
  */
 
 namespace Ecomteck\OnePay\Controller\Order\Domestic;
 
+/**
+ * Class PlaceOrder
+ */
 class PlaceOrder extends \Magento\Framework\App\Action\Action
 {
     /**
@@ -39,9 +42,9 @@ class PlaceOrder extends \Magento\Framework\App\Action\Action
     protected $resultJsonFactory;
 
     /**
-     * @param \Magento\Framework\App\Action\Context $context
-     * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Ecomteck\OnePay\Helper\Data $onePayHelperData
+     * @param \Magento\Framework\App\Action\Context            $context
+     * @param \Magento\Sales\Model\OrderFactory                $orderFactory
+     * @param \Ecomteck\OnePay\Helper\Data                     $onePayHelperData
      * @param \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory
      */
     public function __construct(
@@ -59,7 +62,9 @@ class PlaceOrder extends \Magento\Framework\App\Action\Action
     /**
      * Place Order action
      *
-     * @return \Magento\Framework\Controller\Result\JsonFactory
+     * @return \Magento\Framework\Controller\Result\Json
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function execute()
     {
@@ -85,6 +90,7 @@ class PlaceOrder extends \Magento\Framework\App\Action\Action
      * Redirect to OnePay Domestic ATM Card
      *
      * @return string|null
+     * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     private function onePayDomestic()
     {
@@ -122,9 +128,10 @@ class PlaceOrder extends \Magento\Framework\App\Action\Action
                 'AgainLink' => $this->_url->getUrl('checkout'),
                 'Title' => __('OnePAY Payment Gateway')
             ];
-            ksort ($params);
-            foreach($params as $key => $value)
-            {
+
+            ksort($params);
+
+            foreach ($params as $key => $value) {
                 $paymentUrl .= urlencode($key) . '=' . urlencode($value) . '&';
                 if (strlen($value) > 0 && (substr($key, 0, 4) == 'vpc_' || substr($key, 0, 5) == 'user_')) {
                     $md5HashData .= $key . '=' . $value . '&';

@@ -1,22 +1,22 @@
 <?php
 /**
- * GiaPhuGroup Co., Ltd.
+ * Ecomteck
  *
  * NOTICE OF LICENSE
  *
- * This source file is subject to the GiaPhuGroup.com license that is
+ * This source file is subject to the Ecomteck.com license that is
  * available through the world-wide-web at this URL:
- * https://www.giaphugroup.com/LICENSE.txt
+ * https://ecomteck.com/LICENSE.txt
  *
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade this extension to newer
  * version in the future.
  *
- * @category    Ecomteck
- * @package     Ecomteck_CityDropdown
- * @copyright   Copyright (c) 2018-2019 GiaPhuGroup Co., Ltd. All rights reserved. (http://www.giaphugroup.com/)
- * @license     https://www.giaphugroup.com/LICENSE.txt
+ * @category  Ecomteck
+ * @package   Ecomteck_OnePay
+ * @copyright Copyright (c) 2020 Ecomteck (https://ecomteck.com/)
+ * @license   https://ecomteck.com/LICENSE.txt
  */
 
 namespace Ecomteck\OnePay\Setup;
@@ -25,10 +25,17 @@ use Magento\Framework\Setup\UpgradeSchemaInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
 
+/**
+ * Class UpgradeSchema
+ */
 class UpgradeSchema implements UpgradeSchemaInterface
 {
+
     /**
-     * {@inheritdoc}
+     * Module Upgrade Schema
+     *
+     * @param SchemaSetupInterface   $setup
+     * @param ModuleContextInterface $context
      */
     public function upgrade(SchemaSetupInterface $setup, ModuleContextInterface $context)
     {
