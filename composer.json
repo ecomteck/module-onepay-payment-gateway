@@ -12,10 +12,10 @@
         "OnePay"
     ],
     "require": {
-        "ecomteck/module-core": "1.*"
+        "ecomteck/module-core": "1.0.*"
     },
     "type": "magento2-module",
-    "version": "2.1.2",
+    "version": "2.1.3",
     "license": [
         "OSL-3.0",
         "AFL-3.0"
